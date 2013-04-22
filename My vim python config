@@ -1,0 +1,40 @@
+"I use kali-linux"
+
+"Create file ".vimrc",in /root."
+"创建文件.vimrc"，在/root目录下。"
+
+"As follows：（In the middle of the ‘-----’）"
+-----------------------------------------------------------
+"Code highlighting"
+"代码高亮"
+syntax enable
+
+"Set the line number"
+"设置行号"
+set number
+
+"Auto-indent"
+"自动缩进"
+filetype plugin indent on
+autocmd fileType python setlocal et sta sw=4 sts=4
+
+"Press F5 and Enter key,can run the python program。"
+"按F5键和Enter键，能直接运行python程序。"
+map <F5> :!/usr/bin/python %
+
+----------------------------------------------------------
+
+"Code completion plugin"
+
+http://www.vim.org/scripts/script.php?script_id=1879
+
+download this plugin to /root.
+
+shell command:
+cd ~
+chmod u+x plugin name
+unzip plugin name
+mv plugin/acp.vim /usr/share/vim/vim73/plugin
+mv autoload/acp.vim /usr/share/vim/vim73/autoload
+
+restart VIM
