@@ -32,7 +32,6 @@ download this plugin to /root.
 
 shell command:
 cd ~
-chmod u+x plugin name
 unzip plugin name
 mv plugin/acp.vim /usr/share/vim/vim73/plugin
 mv autoload/acp.vim /usr/share/vim/vim73/autoload
