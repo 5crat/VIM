@@ -1,7 +1,7 @@
 "I use kali-linux"
 
-"Create file ".vimrc",in /root."
-"创建文件.vimrc"，在/root目录下。"
+"Create file ".vimrc",in home"
+"创建文件.vimrc"，在家目录下。"
 
 "As follows：（In the middle of the ‘-----’）"
 -----------------------------------------------------------
