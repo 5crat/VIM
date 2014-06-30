@@ -1,26 +1,149 @@
-"I use kali-linux"
+syntax on
 
-"Create file ".vimrc",in home"
-"创建文件.vimrc"，在家目录下。"
+"不备份
+set nobackup
 
-"As follows：（In the middle of the ‘-----’）"
------------------------------------------------------------
-"Code highlighting"
-"代码高亮"
-syntax enable
+"设置配色方案
+"colorscheme desert
 
-"Set the line number"
-"设置行号"
+"显示行号
 set number
 
-"Auto-indent"
-"自动缩进"
-filetype plugin indent on
-autocmd fileType python setlocal et sta sw=4 sts=4
+"括号匹配
+"set showmatch
 
-"Press F5 and Enter key,can run the python program。"
-"按F5键和Enter键，能直接运行python程序。"
-map <F5> :!/usr/bin/python %
+"在缩进和遇到tab键时使用空格替代
+set expandtab
+
+"自动对齐
+set autoindent
+
+"突出显示当前行
+set cursorline
+
+"引号括号自动补全
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap { {<CR>}<Esc>O
+"autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
+inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap ] <c-r>=ClosePair(']')<CR>
+inoremap } <c-r>=CloseBracket()<CR>
+inoremap " <c-r>=QuoteDelim('"')<CR>
+inoremap ' <c-r>=QuoteDelim("'")<CR>
+
+function ClosePair(char)
+ if getline('.')[col('.') - 1] == a:char
+ return "\<Right>"
+ else
+ return a:char
+ endif
+endf
+
+function CloseBracket()
+ if match(getline(line('.') + 1), '\s*}') < 0
+ return "\<CR>}"
+ else
+ return "\<Esc>j0f}a"
+ endif
+endf
+
+function QuoteDelim(char)
+ let line = getline('.')
+ let col = col('.')
+ if line[col - 2] == "\\"
+ "Inserting a quoted quotation mark into the string
+ return a:char
+ elseif line[col - 1] == a:char
+ "Escaping out of the string
+ return "\<Right>"
+ else
+ "Starting a string
+ return a:char.a:char."\<Esc>i"
+ endif
+endf
+
+"缩进格式
+set tabstop=2
+set shiftwidth=2
+
+"文件类型自动检测
+filetype plugin indent on
+
+"根据文件类型设置缩进格式
+au FileType html,javascript setl shiftwidth=2
+au FileType html,javascript setl tabstop=2
+
+au FileType java,python,php,vim setl shiftwidth=4
+au FileType java,python,php,vim setl tabstop=4
+
+"智能缩进
+set smartindent
+
+"搜索时即刻显示
+set incsearch
+
+"设置vim的内部编码
+set encoding=utf-8
+
+set magic
+
+"开始折叠
+set foldenable
+
+"设置语法折叠
+set foldmethod=syntax
+
+"设置折叠区域的宽度
+set foldcolumn=0
+
+"设置折叠层数为
+setlocal foldlevel=1
+
+"设置为自动关闭折叠
+" set foldclose=all                            
+
+"用空格键来开关折叠
+" nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+"自动添加Py文件头
+function PythonHeader()
+    call setline(1,"#!/usr/bin/python")
+    call append(1,"# -*- coding: utf-8 -*-")
+    call append(2,"# 5crat @ " . strftime('%Y-%m-%d %T',localtime()))
+    normal G
+    normal o
+    normal o
+endf
+autocmd bufnewfile *.py call PythonHeader()
+
+" F12执行python文件
+autocmd FileType python map <F12> :!python %<CR>
+
+"自动添加bash脚本头
+function BashHeader()
+    call setline(1,"#!/bin/bash")
+    call append(1,"# -*- coding: uff-8 -*-")
+    call append(2,"# CREATE " . strftime('%Y-%m-%d %T',localtime()))
+    normal G
+    normal o
+    normal o
+endf
+autocmd bufnewfile *.sh call BashHeader()
+
+"自动添加php头
+function PhpHeader()
+    call setline(1,"<?php")
+    call append(1,"/*")
+    call append(2,"  5crat @ " . strftime('%Y-%m-%d %T',localtime()))
+    call append(3,"*/")
+ 
+    normal G
+    normal O
+    normal O
+endf
+autocmd bufnewfile *.php call PhpHeader()
+
 
 ----------------------------------------------------------
 
